@@ -1,3 +1,4 @@
+from os import getcwd
 from os.path import join
 from datetime import datetime, timedelta
 
@@ -33,24 +34,26 @@ def get_engine():
 
 
 def clean_data():
-    with open(join('sql', 'delete_feature_week_retention_rate_diff.sql')) as file:
+    with open(join(join(join(join(getcwd(), 'app'), 'etl_core'), 'sql'),
+                   'delete_feature_week_retention_rate_diff.sql')) as file:
         query = text(file.read())
         get_engine().execute(query)
 
+    logger.info(f"""Script delete_feature_week_retention_rate_diff has been executed {datetime.now()}""")
+
 
 def insert_data(df):
-    result = df.toPandas()
-    engine = get_engine()
-    result.to_sql(schema='core',
-                  name='feature_retention_rate',
-                  con=engine,
-                  if_exists='append',
-                  index=False)
+    df.write.mode("append") \
+        .format("jdbc") \
+        .option("url", f"""jdbc:postgresql://{POSTGRES_HOST}:{POSTGRES_PORT}/""") \
+        .option("dbtable", "core.feature_retention_rate") \
+        .option("user", POSTGRES_USER) \
+        .option("password", POSTGRES_PASSWORD) \
+        .save()
 
 
 def start_computing():
     logger.info(f"""Start core feature_week_retention_rate_diff ETL process {datetime.now()}""")
-    print('Start core feature_week_retention_rate_diff ETL process', datetime.now())
 
     spark = SparkSession.builder.appName("jbTechTest").getOrCreate()
 
@@ -108,12 +111,11 @@ def start_computing():
     """
 
     logger.info(f"""Finish core feature_week_retention_rate_diff ETL process {datetime.now()}""")
-    print('Finish core feature_week_retention_rate_diff ETL process', datetime.now())
 
     return spark.sql(query)
 
 
 def start_feature_week_retention_rate_diff():
-        df = start_computing()
-        clean_data()
-        insert_data(df)
+    clean_data()
+    df = start_computing()
+    insert_data(df)

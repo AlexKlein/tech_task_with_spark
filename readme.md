@@ -81,4 +81,5 @@ I don't aggregate data by month or year in this (core) layer because raw data ca
 - Add a visualization system, e.g. Tableau or Qlik Sense.
 - Add a separate Spark master and Spark workers for processing data.
 - Add Hadoop namenode and datanodes for storring data.
+- Add a tool for deploying SQL scripts such as Flyway.
 - Cover this application by tests.

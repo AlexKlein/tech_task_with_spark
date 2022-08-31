@@ -1,3 +1,4 @@
+from os import getcwd
 from os.path import join
 from datetime import datetime, timedelta
 
@@ -33,24 +34,26 @@ def get_engine():
 
 
 def clean_data():
-    with open(join('sql', 'delete_fraction_of_new_users_use_feature_14_days.sql')) as file:
+    with open(join(join(join(join(getcwd(), 'app'), 'etl_core'), 'sql'),
+                   'delete_fraction_of_new_users_use_feature_14_days.sql')) as file:
         query = text(file.read())
         get_engine().execute(query)
 
+    logger.info(f"""Script delete_fraction_of_new_users_use_feature_14_days has been executed {datetime.now()}""")
+
 
 def insert_data(df):
-    result = df.toPandas()
-    engine = get_engine()
-    result.to_sql(schema='core',
-                  name='number_of_new_users_use_feature',
-                  con=engine,
-                  if_exists='append',
-                  index=False)
+    df.write.mode("append") \
+        .format("jdbc") \
+        .option("url", f"""jdbc:postgresql://{POSTGRES_HOST}:{POSTGRES_PORT}/""") \
+        .option("dbtable", "core.number_of_new_users_use_feature") \
+        .option("user", POSTGRES_USER) \
+        .option("password", POSTGRES_PASSWORD) \
+        .save()
 
 
 def start_computing():
     logger.info(f"""Start core fraction_of_new_users_use_feature_14_days ETL process {datetime.now()}""")
-    print('Start core fraction_of_new_users_use_feature_14_days ETL process', datetime.now())
 
     spark = SparkSession.builder.appName("jbTechTest").getOrCreate()
 
@@ -96,12 +99,11 @@ def start_computing():
     """
 
     logger.info(f"""Finish core fraction_of_new_users_use_feature_14_days ETL process {datetime.now()}""")
-    print('Finish core fraction_of_new_users_use_feature_14_days ETL process', datetime.now())
 
     return spark.sql(query)
 
 
 def start_fraction_of_new_users_use_feature_14_days():
-    df = start_computing()
     clean_data()
+    df = start_computing()
     insert_data(df)

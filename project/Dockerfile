@@ -27,6 +27,8 @@ RUN apt-get update \
  && tar -xzf spark-3.3.0-bin-hadoop3.tgz \
  && mv spark-3.3.0-bin-hadoop3/ /opt/spark \
  && rm spark-3.3.0-bin-hadoop3.tgz \
+ && wget --no-check-certificate https://jdbc.postgresql.org/download/postgresql-42.5.0.jar \
+ && mv postgresql-42.5.0.jar /opt/spark/jars \
  && wget --no-check-certificate https://downloads.apache.org/hadoop/common/hadoop-3.2.3/hadoop-3.2.3.tar.gz \
  && tar -xzf hadoop-3.2.3.tar.gz \
  && mv hadoop-3.2.3 /usr/local/hadoop \
@@ -44,19 +46,22 @@ ENV PATH="${PATH}:$JAVA_HOME/bin"
 ENV _JAVA_OPTIONS="-Xmx512M"
 ENV SPARK_HOME="/opt/spark"
 ENV PATH="${PATH}:$SPARK_HOME/bin:$SPARK_HOME/sbin"
+ENV PYTHONPATH="$SPARK_HOME/python"
+ENV PYSPARK_PYTHON="$SPARK_HOME/python"
+ENV PYSPARK_DRIVER_PYTHON="$SPARK_HOME/python"
 ENV HADOOP_HOME="/usr/local/hadoop"
 ENV PATH="$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin"
 
 # Copy the requirements for the Python app
 COPY requirements.txt /usr/local/airflow/app/requirements.txt
 
-# Copy the DAGs for the Airflow app
-COPY ./airflow/dags  /usr/local/airflow/dags
-
 # Install needed packages specified in the requirements.txt file and make special directories
 RUN pip install --trusted-host pypi.python.org -r /usr/local/airflow/app/requirements.txt \
  && mkdir -p /tmp/etl_project/log \
  && mkdir -p /tmp/etl_project/data
+
+# Copy the DAGs for the Airflow app
+COPY ./airflow/dags  /usr/local/airflow/dags
 
 # Copy the current directory contents into the container workdir
 COPY . /usr/local/airflow/app

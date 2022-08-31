@@ -57,8 +57,8 @@ def delay_db(conn):
 def start_app():
     warnings.simplefilter(action='ignore')
 
-    logger.info(f"""Start database preparation in {datetime.now()}""")
-    print('Start database preparation in', datetime.now())
+    logger.info(f"""Start main process in {datetime.now()}""")
+    print('Start main process in', datetime.now())
 
     connection = postgres_wrapper.PostgresWrapper()
     delay_db(connection)
@@ -67,5 +67,5 @@ def start_app():
     start_core_layer()
     start_datamart_layer()
 
-    logger.info(f"""Finish database preparation in {datetime.now()}""")
-    print('Finish database preparation in', datetime.now())
+    logger.info(f"""Start main process in {datetime.now()}""")
+    print('Start main process in', datetime.now())

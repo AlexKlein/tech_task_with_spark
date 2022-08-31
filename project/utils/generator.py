@@ -22,10 +22,10 @@ def generate_events():
         events_df = pd.DataFrame({'product': ['pyCharm', 'DataGrip', 'IDEA', 'YouTrack', 'DataGrip'],
                                   'product_version': ['2021.2', '2022.1', '2019.4', '2020.3', '2022.2'],
                                   'timestamp': ['2022-08-01 22:22:23.173210',
-                                                '2022-08-15 12:57:16.456874',
-                                                '2022-08-17 09:12:35.597613',
-                                                '2022-08-19 16:14:59.156497',
-                                                '2022-08-24 15:12:12.684348'],
+                                                '2022-08-19 12:57:16.456874',
+                                                '2022-08-22 09:12:35.597613',
+                                                '2022-08-25 16:14:59.156497',
+                                                '2022-08-29 15:12:12.684348'],
                                   'group_id': ['update', 'update', 'upgrade', 'upgrade', 'update'],
                                   'event_id': [65564, 65564, 54684, 13449, 65564],
                                   'event_type': ['change_color',
@@ -95,7 +95,6 @@ def generate_events():
         pq.write_table(events_table, join(FILES_DIR_PATH, f"""{gen_date}_events.parquet"""))
 
     logger.info(f"""Set of events data parquet files has created""")
-    print(f"""Set of events parquet data files has created""")
 
 
 def generate_dicts():
@@ -130,7 +129,6 @@ def generate_dicts():
     pq.write_table(feature_releases_table, join(FILES_DIR_PATH, 'feature_releases.parquet'))
 
     logger.info(f"""Set of dictionaries data parquet files has created""")
-    print(f"""Set of dictionaries data parquet files has created""")
 
 
 def start_generator():
