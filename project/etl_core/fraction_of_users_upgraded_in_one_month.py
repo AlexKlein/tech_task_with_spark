@@ -53,8 +53,6 @@ def insert_data(df):
 
 
 def start_computing():
-    logger.info(f"""Start core fraction_of_users_upgraded_in_one_month ETL process {datetime.now()}""")
-
     spark = SparkSession.builder.appName("jbTechTest").getOrCreate()
 
     union_events_df = None
@@ -101,12 +99,12 @@ def start_computing():
              cast(e.timestamp as date)
     """
 
-    logger.info(f"""Finish core fraction_of_users_upgraded_in_one_month ETL process {datetime.now()}""")
-
     return spark.sql(query)
 
 
 def start_fraction_of_users_upgraded_in_one_month():
+    logger.info(f"""Start core fraction_of_users_upgraded_in_one_month ETL process {datetime.now()}""")
     clean_data()
     df = start_computing()
     insert_data(df)
+    logger.info(f"""Finish core fraction_of_users_upgraded_in_one_month ETL process {datetime.now()}""")

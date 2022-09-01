@@ -13,11 +13,9 @@ logger = logging.getLogger(__name__)
 
 def start_core_layer():
     logger.info(f"""Start core layer filling in {datetime.now()}""")
-    print('Start core layer filling in ', datetime.now())
 
     start_feature_week_retention_rate_diff()
     start_fraction_of_new_users_use_feature_14_days()
     start_fraction_of_users_upgraded_in_one_month()
 
-    logger.info(f"""Start core layer filling in {datetime.now()}""")
-    print('Start core layer filling in ', datetime.now())
+    logger.info(f"""Finish core layer filling in {datetime.now()}""")

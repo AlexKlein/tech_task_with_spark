@@ -22,14 +22,12 @@ def commands_launcher(sql_file, conn):
             except Exception as e:
                 e = str(e).replace('\n', '')
                 logger.error(f"""Crashed when running the command: {e}""")
-                print(f"""Crashed when running the command: {e}""")
 
     conn.execute(raw_sql='commit')
 
 
 def start_datamart_layer():
-    logger.info(f"""Start core layer filling in {datetime.now()}""")
-    print('Start core layer filling in ', datetime.now())
+    logger.info(f"""Start datamart layer filling in {datetime.now()}""")
 
     connection = postgres_wrapper.PostgresWrapper()
 
@@ -50,4 +48,3 @@ def start_datamart_layer():
     connection.close()
 
     logger.info(f"""Finish datamart layer filling in {datetime.now()}""")
-    print('Finish datamart layer filling in ', datetime.now())

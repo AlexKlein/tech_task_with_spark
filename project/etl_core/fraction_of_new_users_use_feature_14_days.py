@@ -53,8 +53,6 @@ def insert_data(df):
 
 
 def start_computing():
-    logger.info(f"""Start core fraction_of_new_users_use_feature_14_days ETL process {datetime.now()}""")
-
     spark = SparkSession.builder.appName("jbTechTest").getOrCreate()
 
     union_events_df = None
@@ -98,12 +96,12 @@ def start_computing():
              e.event_context['additional']['product']['feature_id']
     """
 
-    logger.info(f"""Finish core fraction_of_new_users_use_feature_14_days ETL process {datetime.now()}""")
-
     return spark.sql(query)
 
 
 def start_fraction_of_new_users_use_feature_14_days():
+    logger.info(f"""Start core fraction_of_new_users_use_feature_14_days ETL process {datetime.now()}""")
     clean_data()
     df = start_computing()
     insert_data(df)
+    logger.info(f"""Finish core fraction_of_new_users_use_feature_14_days ETL process {datetime.now()}""")

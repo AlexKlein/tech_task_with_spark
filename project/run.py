@@ -24,11 +24,8 @@ def check_data(conn):
         conn.execute(raw_sql='select 1 from datamart.feature_retention_rate limit 0')
 
         logger.info(f"""Migration has been done""")
-        print(f"""Migration has been already done""")
     except psycopg2.ProgrammingError as e:
         logger.info(f"""Start migration""")
-        print(f"""Start migration""")
-
         start_migration()
 
 
@@ -47,10 +44,8 @@ def delay_db(conn):
 
     if run_flag:
         logger.info(f"""Database started""")
-        print(f"""Database started""")
     else:
         logger.error(f"""Database didn't start""")
-        print(f"""Database didn't start""")
         sys.exit(1)
 
 
@@ -58,7 +53,6 @@ def start_app():
     warnings.simplefilter(action='ignore')
 
     logger.info(f"""Start main process in {datetime.now()}""")
-    print('Start main process in', datetime.now())
 
     connection = postgres_wrapper.PostgresWrapper()
     delay_db(connection)
@@ -67,5 +61,4 @@ def start_app():
     start_core_layer()
     start_datamart_layer()
 
-    logger.info(f"""Start main process in {datetime.now()}""")
-    print('Start main process in', datetime.now())
+    logger.info(f"""Finish main process in {datetime.now()}""")

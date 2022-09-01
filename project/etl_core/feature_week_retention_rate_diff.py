@@ -53,8 +53,6 @@ def insert_data(df):
 
 
 def start_computing():
-    logger.info(f"""Start core feature_week_retention_rate_diff ETL process {datetime.now()}""")
-
     spark = SparkSession.builder.appName("jbTechTest").getOrCreate()
 
     union_events_df = None
@@ -110,12 +108,12 @@ def start_computing():
                                   current_date - 1
     """
 
-    logger.info(f"""Finish core feature_week_retention_rate_diff ETL process {datetime.now()}""")
-
     return spark.sql(query)
 
 
 def start_feature_week_retention_rate_diff():
+    logger.info(f"""Start core feature_week_retention_rate_diff ETL process {datetime.now()}""")
     clean_data()
     df = start_computing()
     insert_data(df)
+    logger.info(f"""Finish core feature_week_retention_rate_diff ETL process {datetime.now()}""")
