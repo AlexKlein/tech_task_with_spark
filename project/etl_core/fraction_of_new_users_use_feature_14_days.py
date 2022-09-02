@@ -88,7 +88,7 @@ def start_computing():
     inner join total_new_users t
             on 1 = 1
     where  e.event_context['additional']['product']['feature_id'] != 0 and
-           e.timestamp between current_date - 14 and
+           e.timestamp between current_date - 5 and
                                current_date - 1
     group by e.product,
              t.number_of_users,

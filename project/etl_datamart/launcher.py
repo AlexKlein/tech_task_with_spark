@@ -1,7 +1,9 @@
 """
 ETL process for running queries and filling tables in datamart area.
 """
-import os
+from os import getcwd, walk
+from os.path import join
+
 from datetime import datetime
 
 from common import postgres_wrapper
@@ -31,13 +33,14 @@ def start_datamart_layer():
 
     connection = postgres_wrapper.PostgresWrapper()
 
-    for path, dirs, files in os.walk(os.path.dirname(os.getcwd())):
+    for path, dirs, files in walk(getcwd()):
 
         if path.find('etl_datamart') > 0:
             if path.find('sql') > 0:
 
                 for f in files:
-                    full_path = os.path.join(path, f)
+                    full_path = join(path, f)
+                    logger.info(f"""Commands from {full_path}""")
 
                     with open(full_path, 'r', encoding='UTF-8') as file:
                         try:

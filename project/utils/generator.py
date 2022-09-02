@@ -21,11 +21,11 @@ def generate_events():
 
         events_df = pd.DataFrame({'product': ['pyCharm', 'DataGrip', 'IDEA', 'YouTrack', 'DataGrip'],
                                   'product_version': ['2021.2', '2022.1', '2019.4', '2020.3', '2022.2'],
-                                  'timestamp': ['2022-08-01 22:22:23.173210',
-                                                '2022-08-19 12:57:16.456874',
-                                                '2022-08-22 09:12:35.597613',
-                                                '2022-08-25 16:14:59.156497',
-                                                '2022-08-29 15:12:12.684348'],
+                                  'timestamp': ['2022-08-28 22:22:23.173210',
+                                                '2022-08-28 12:57:16.456874',
+                                                '2022-09-01 09:12:35.597613',
+                                                '2022-08-31 16:14:59.156497',
+                                                '2022-09-02 15:12:12.684348'],
                                   'group_id': ['update', 'update', 'upgrade', 'upgrade', 'update'],
                                   'event_id': [65564, 65564, 54684, 13449, 65564],
                                   'event_type': ['change_color',
@@ -122,9 +122,9 @@ def generate_dicts():
                                         'product_id': [8542135, 3113551, 565498, 313586484],
                                         'feature_id': [8799561321, 23154494, 456513518, 654641313],
                                         'release_date': ['2022-08-14',
-                                                         '2022-05-12',
-                                                         '2022-07-28',
-                                                         '2022-08-24']})
+                                                         '2022-08-09',
+                                                         '2022-08-28',
+                                                         '2022-08-27']})
     feature_releases_table = pa.Table.from_pandas(feature_releases_df)
     pq.write_table(feature_releases_table, join(FILES_DIR_PATH, 'feature_releases.parquet'))
 
