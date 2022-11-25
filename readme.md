@@ -1,4 +1,4 @@
-# Solution of the JetBrains tech test
+# Solution of some tech test
 
 In this project I showed my coding skills.
 
@@ -46,12 +46,6 @@ When you need to start the app with all infrastructure, you have to make this st
 
 You should wait a couple of minutes for the database and Airflow webserer start. After that you may run the application and check logs as the next step.
 
-## Q&A
-
-- Q: How the project build time depends on the technologies used in the project?
-- A: In general, if we increae a number of technologies and complexity of integrations between them then the build time increases as well. But if we take a look in details then it can be not like this. The initial build can be the long one but 
-if we use e.g. Docker image then it takes cached layers and rebuild only changed layers. Or if we use programming language as Python then we can use `volumes` and not rebuild the project with minor changes.
-
 ## Concept of the ETL process
 
 The app generates parquet files into file storage system of a container (it can be changed to AWS S3/Hadoop/etc.). After that data store in PostgreSQL DB aggregated by product and feature or release using PySpark. 
@@ -74,6 +68,12 @@ I don't aggregate data by month or year in this (core) layer because raw data ca
 - [feature_retention_rate](./project/etl_datamart/sql/feature_week_retention_rate_diff.sql) table shows retention rate for a product and a feature in a month. Also, it shows difference between two sequential features;
 - [fraction_of_new_users_use_feature](./project/etl_datamart/sql/fraction_of_new_users_use_feature.sql) table shows fraction of new users who use a feature last 14 days and it's aggregated by month;
 - [fraction_of_users_upgraded_in_one_month](./project/etl_datamart/sql/fraction_of_users_upgraded_in_one_month.sql) table shows fraction of users who upgraded a product in a month.
+
+## Q&A
+
+- Q: How the project build time depends on the technologies used in the project?
+- A: In general, if we increae a number of technologies and complexity of integrations between them then the build time increases as well. But if we take a look in details then it can be not like this. The initial build can be the long one but 
+if we use e.g. Docker image then it takes cached layers and rebuild only changed layers. Or if we use programming language as Python then we can use `volumes` and not rebuild the project with minor changes.
 
 ## Potential improvements
 
